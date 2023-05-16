@@ -1,0 +1,25 @@
+//Main controller
+
+#include "functions.hpp"
+#include <iostream>
+#include <stdlib.h>
+#include <fstream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+//“C” - configuration
+//“A” - job arrival
+//“Q” - device request
+//“L” - device release
+//“D” - display
+
+
+int main() {
+    Func();
+    return 0;
+
+}
+
+
+
