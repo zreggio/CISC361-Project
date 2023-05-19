@@ -1,0 +1,65 @@
+#ifndef PROCESSHPP
+#define PROCESSHPP
+
+#include <iostream>
+#include <stdlib.h>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class Process {
+public:
+	int jobNumber;
+	int memNeeded;
+	int maxDev;
+	int runtime;
+	int priority;
+	Process* next;
+
+	Process(){
+		jobNumber = 0;
+		memNeeded = 0;
+		maxDev = 0;
+		runtime = 0;
+		priority = 0;
+		next = NULL;
+	}
+	Process(int jNum, int memN, int maxD, int runT, int pri){
+		jobNumber = jNum;
+		memNeeded = memN;
+		maxDev = maxD;
+		runtime = runT;
+		priority = pri;
+		next = NULL;
+		}
+};
+
+class holdQueue1{
+	Process* head;
+
+public:
+	 void insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority);
+	 void printList();
+};
+
+class holdQueue2{
+	Process* head;
+
+public:
+	 void insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority);
+	 void printList();
+};
+
+class waitQueue{
+	Process* head;
+};
+
+class readyQueue{
+	Process* head;
+
+public:
+	void insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority);
+	void printList();
+};
+
+#endif /* PROCESSHPP */

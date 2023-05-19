@@ -1,0 +1,34 @@
+//Main
+#include "process.hpp"
+#include "linkedList.hpp"
+#include "functions.hpp"
+#include <iostream>
+#include <stdlib.h>
+#include <fstream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+//“C” - configuration
+//“A” - job arrival
+//“Q” - device request
+//“L” - device release
+//“D” - display
+
+
+int main() {
+
+	//holdQueue2 que2;
+	//que2.insertNode(1,1,1,1,1);
+	//que2.insertNode(2,2,2,2,2);
+	//que2.printList();
+
+
+
+	Func();
+    return 0;
+
+}
+
+
+

@@ -1,0 +1,121 @@
+#include "process.hpp"
+#include <iostream>
+#include <stdlib.h>
+#include <fstream>
+#include <string>
+using namespace std;
+
+void holdQueue1::insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority){
+	// Create the new Node.
+	Process* newProcess = new Process(jobNumber, memNeeded, maxDev, runtime, priority);
+
+	// Assign to head
+	if (head == NULL) {
+	    head = newProcess;
+	    return;
+	}
+
+	// Traverse till end of list
+	Process* temp = head;
+	while (temp->next != NULL) {
+
+	    // Update temp
+	    temp = temp->next;
+	}
+
+	// Insert at the last.
+	temp->next = newProcess;
+}
+void holdQueue1::printList()
+{
+    Process* temp = head;
+
+    // Check for empty list.
+    if (head == NULL) {
+        cout << "List empty" << endl;
+        return;
+    }
+
+    // Traverse the list.
+    while (temp != NULL) {
+        cout << temp->jobNumber << " ";
+        temp = temp->next;
+    }
+}
+
+
+void holdQueue2::insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority){
+	// Create the new Node.
+	Process* newProcess = new Process(jobNumber, memNeeded, maxDev, runtime, priority);
+
+	    // Assign to head
+	if (head == NULL) {
+	    head = newProcess;
+	    return;
+	}
+
+	// Traverse till end of list
+	Process* temp = head;
+	while (temp->next != NULL) {
+
+	    // Update temp
+	    temp = temp->next;
+	}
+
+	// Insert at the last.
+	temp->next = newProcess;
+}
+void holdQueue2::printList()
+{
+    Process* temp = head;
+
+    // Check for empty list.
+    if (head == NULL) {
+        cout << "List empty" << endl;
+        return;
+    }
+
+    // Traverse the list.
+    while (temp != NULL) {
+        cout << temp->jobNumber << " ";
+        temp = temp->next;
+    }
+}
+
+void readyQueue::insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority){
+	// Create the new Node.
+	Process* newProcess = new Process(jobNumber, memNeeded, maxDev, runtime, priority);
+
+	    // Assign to head
+	if (head == NULL) {
+	    head = newProcess;
+	    return;
+	}
+
+	// Traverse till end of list
+	Process* temp = head;
+	while (temp->next != NULL) {
+
+	    // Update temp
+	    temp = temp->next;
+	}
+
+	// Insert at the last.
+	temp->next = newProcess;
+}
+void readyQueue::printList()
+{
+    Process* temp = head;
+
+    // Check for empty list.
+    if (head == NULL) {
+        cout << "List empty" << endl;
+        return;
+    }
+
+    // Traverse the list.
+    while (temp != NULL) {
+        cout << temp->jobNumber << " ";
+        temp = temp->next;
+    }
+}
