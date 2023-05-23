@@ -1,0 +1,105 @@
+#ifndef PROCESSHANDLER_HPP_
+#define PROCESSHANDLER_HPP_
+
+#include <iostream>
+#include <stdlib.h>
+#include <fstream>
+#include <string>
+using namespace std;
+
+
+
+class Process {
+public:
+	int jobNumber;
+	int memNeeded;
+	int maxDev;
+	int runtime;
+	int priority;
+	int quantumTracker;
+	int devHeld;
+	Process* next;
+
+	Process(){
+		jobNumber = 0;
+		memNeeded = 0;
+		maxDev = 0;
+		runtime = 0;
+		priority = 0;
+		quantumTracker = 0;
+		devHeld = 0;
+		next = NULL;
+	}
+	Process(int jNum, int memN, int maxD, int runT, int pri, int qu, int de){
+		jobNumber = jNum;
+		memNeeded = memN;
+		maxDev = maxD;
+		runtime = runT;
+		priority = pri;
+		quantumTracker = qu;
+		devHeld = de;
+		next = NULL;
+	}
+};
+
+
+
+//hold queue 1 -> shortest job first
+class holdQueue1{
+	Process* head = NULL;
+public:
+	holdQueue1() { head = NULL; }
+	void insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority, int quantumTracker, int devHeld);
+	void printList();
+	void deleteNode(int);
+
+};
+
+//hold queue 2 -> FIFO
+class holdQueue2{
+	Process* head = NULL;
+public:
+	holdQueue2() { head = NULL; }
+	void insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority, int quantumTracker, int devHeld);
+	void printList();
+	void deleteNode(int);
+
+};
+
+//ready queue (cpu is the head of the ready queue)
+class readyQueue{
+	Process* head = NULL;
+public:
+	readyQueue() { head = NULL; }
+	void insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority, int quantumTracker, int devHeld);
+	void printList();
+	void printCPU();
+	void deleteNode(int);
+	void printFinished();
+	void readyQueueHandler();
+	void devHandler();
+	//readyQueue rQueue;
+};
+
+//wait queue
+class waitQueue{
+	Process* head = NULL;
+public:
+	waitQueue() { head = NULL; }
+	void insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority, int quantumTracker, int devHeld);
+	void printList();
+	void deleteNode(int);
+
+};
+
+class finished{
+	Process* head = NULL;
+public:
+	finished() { head = NULL; }
+	void insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority, int quantumTracker, int devHeld);
+	void printList();
+
+};
+
+
+#endif /* PROCESSHANDLER_HPP_ */
