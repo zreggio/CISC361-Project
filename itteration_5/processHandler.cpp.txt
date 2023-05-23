@@ -1,0 +1,252 @@
+#include "processHandler.hpp"
+#include "commandManager.hpp"
+#include <iostream>
+#include <stdlib.h>
+#include <fstream>
+#include <string>
+using namespace std;
+
+
+
+
+void holdQueue1::insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority, int quantumTracker, int devHeld){
+    Process* newProcess = new Process(jobNumber, memNeeded, maxDev, runtime, priority, quantumTracker, devHeld);
+    if( head == NULL ) {
+        head = newProcess;
+    } else if ( newProcess->runtime < head->runtime ){
+    	newProcess->next = head;
+    	head = newProcess;
+    } else {
+        Process* current = head;
+
+        while ( current->next != NULL && current->next->runtime <= newProcess->runtime) {
+            current = current->next;
+        }
+
+        newProcess->next = current->next;
+        current->next = newProcess;
+    }
+}
+
+void holdQueue1::printList()
+{
+    Process* temp = head;
+
+    // Check for empty list.
+    if (head == NULL) {
+        cout << "List empty" << endl;
+        return;
+    }
+
+    // Traverse the list.
+    while (temp != NULL) {
+        cout << temp->runtime << " ";
+        temp = temp->next;
+    }
+}
+
+
+void holdQueue2::insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority, int quantumTracker, int devHeld){
+	// Create the new Node.
+	Process* newProcess = new Process(jobNumber, memNeeded, maxDev, runtime, priority, quantumTracker, devHeld);
+
+	    // Assign to head
+	if (head == NULL) {
+	    head = newProcess;
+	    return;
+	}
+
+	// Traverse till end of list
+	Process* temp = head;
+	while (temp->next != NULL) {
+
+	    // Update temp
+	    temp = temp->next;
+	}
+
+	// Insert at the last.
+	temp->next = newProcess;
+}
+
+void holdQueue2::printList()
+{
+    Process* temp = head;
+
+    // Check for empty list.
+    if (head == NULL) {
+        cout << "List empty" << endl;
+        return;
+    }
+
+    // Traverse the list.
+    while (temp != NULL) {
+        cout << temp->jobNumber << " ";
+        temp = temp->next;
+    }
+}
+
+void readyQueue::insertNode(int jobNumber, int memNeeded, int maxDev, int runtime, int priority, int quantumTracker, int devHeld)
+{
+	Process* newProcess = new Process(jobNumber, memNeeded, maxDev, runtime, priority, quantumTracker, devHeld);
+
+	// Assign to head
+	if (head == NULL) {
+		head = newProcess;
+		return;
+	}
+
+	// Traverse till end of list
+	Process* temp = head;
+	while (temp->next != NULL) {
+
+		// Update temp
+		temp = temp->next;
+	}
+
+	// Insert at the last.
+	temp->next = newProcess;
+}
+
+void readyQueue::printCPU(){
+	Process* temp = head;
+
+	if (head == NULL) {
+		cout << "List empty" << endl;
+		return;
+	}
+
+	cout << "Job Number: " << temp->jobNumber << endl;
+	cout << "Mem Needed: " << temp->memNeeded << endl;
+	cout << "Max Dev: " << temp->maxDev << endl;
+	cout << "Runtime: " << temp->runtime << endl;
+	cout << "Priority: " << temp->priority << endl;
+}
+
+void readyQueue::printList(){
+	Process* temp = head;
+
+	// Check for empty list.
+	if (head == NULL) {
+		cout << "List empty" << endl;
+		return;
+	}
+
+	temp = temp->next;
+	// Traverse the list.
+	while (temp != NULL) {
+		cout << "Job Number: " << temp->jobNumber << endl;
+		cout << "Mem Needed: " << temp->memNeeded << endl;
+		cout << "Max Dev: " << temp->maxDev << endl;
+		cout << "Runtime: " << temp->runtime << endl;
+		cout << "Priority: " << temp->priority << endl;
+		cout << endl;
+		temp = temp->next;
+	}
+}
+
+void readyQueue::deleteNode(int nodeOffset)
+{
+    Process *temp1 = head, *temp2 = NULL;
+    int ListLen = 0;
+
+    if (head == NULL) {
+        cout << "List empty." << endl;
+        return;
+    }
+
+    // Find length of the linked-list.
+    while (temp1 != NULL) {
+        temp1 = temp1->next;
+        ListLen++;
+    }
+
+    // Check if the position to be
+    // deleted is greater than the length
+    // of the linked list.
+    if (ListLen < nodeOffset) {
+        cout << "Index out of range"
+             << endl;
+        return;
+    }
+
+    // Declare temp1
+    temp1 = head;
+
+    // Deleting the head.
+    if (nodeOffset == 1) {
+
+        // Update head
+        head = head->next;
+        delete temp1;
+        return;
+    }
+
+    // Traverse the list to
+    // find the node to be deleted.
+    while (nodeOffset-- > 1) {
+
+        // Update temp2
+        temp2 = temp1;
+
+        // Update temp1
+        temp1 = temp1->next;
+    }
+
+    // Change the next pointer
+    // of the previous node.
+    temp2->next = temp1->next;
+
+    // Delete the node
+    delete temp1;
+}
+
+void readyQueue::readyQueueHandler(){
+	int memInReadyQueue;
+	Process* temp1 = head;
+	availMem = mainMem;
+	while(temp1 != NULL){
+		availMem = availMem - temp1->memNeeded;
+		temp1 = temp1->next;
+	}
+
+
+	int timePassed = t[tLen-1] - t[tLen-2];
+	for(int i=0; i < timePassed; i++){
+		Process* temp = head;
+		temp->runtime--;
+		temp->quantumTracker--;
+		if(temp->runtime == 0){
+			finishedJobs.insertNode(temp->jobNumber, temp->memNeeded, temp->maxDev, temp->runtime, temp->priority, 0,0);
+			devsHeld = devsHeld - temp->devHeld;
+			deleteNode(1);
+		}
+		else if(temp->quantumTracker == 0){
+			rQueue.insertNode(temp->jobNumber, temp->memNeeded, temp->maxDev, temp->runtime, temp->priority, quantumTime,0);
+			deleteNode(1);
+		}
+	}
+}
+
+void readyQueue::devHandler(){
+	
+}
+
+void readyQueue::printFinished(){
+	Process* temp = head;
+
+	// Check for empty list.
+	if (head == NULL) {
+		cout << "List empty" << endl;
+		return;
+	}
+
+	// Traverse the list.
+	while (temp != NULL) {
+		cout << temp->jobNumber << " ";
+		temp = temp->next;
+	}
+}
+
+
+
+

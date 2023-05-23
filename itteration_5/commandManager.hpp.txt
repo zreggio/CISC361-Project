@@ -1,0 +1,38 @@
+#ifndef COMMANDMANAGER_HPP_
+#define COMMANDMANAGER_HPP_
+
+#include <iostream>
+#include "processHandler.hpp"
+#include <stdlib.h>
+#include <fstream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+extern int mainMem;
+extern int availMem;
+extern int availDev;
+extern int quantumTime;
+extern int time;
+extern int serialDevices;
+extern int devsHeld;
+extern int t[20];
+extern int tLen;
+
+extern holdQueue1 hold1;
+extern holdQueue2 hold2;
+extern readyQueue rQueue;
+extern waitQueue wQueue;
+extern readyQueue finishedJobs;
+
+class Func{
+public:
+	string input;
+	string commandArr[8];
+	Func();
+	string readInput();
+	void splitStr();
+	void commandManager();
+};
+
+#endif /* COMMANDMANAGER_HPP_ */
